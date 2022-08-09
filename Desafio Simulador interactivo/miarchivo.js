@@ -1,15 +1,15 @@
 //Solicitud del precio al cual se le agregara el interes por ahora 12/18
 
-while (true){
+while (true) {
     var precioCosto = parseInt(prompt("Ingrese el precio del producto"));
     if(!isNaN(precioCosto) && precioCosto != null && precioCosto !=""){
         alert ("Es un valor correcto");
-        break;
+        
     } else {
         alert ("No es un valor correcto");
-        continue;
+        
     }
-}
+};
 
 
 
