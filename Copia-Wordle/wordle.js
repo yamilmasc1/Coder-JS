@@ -19,10 +19,12 @@ let recuentoDePalabras = 0;
 buscarLocalStorage();
 function buscarLocalStorage(){
   const palabraEnJuegoGuardada = localStorage.getItem("indicePalabra")
-  if(!palabraEnJuegoGuardada) {
+  /*if(!palabraEnJuegoGuardada) {
     localStorage.setItem("", indicePalabra)
     indicePalabra
-  }
+  } */
+  // Integrando oepradores avanzados.
+  !palabraEnJuegoGuardada && localStorage.setItem("",indicePalabra )
 }
 
 
@@ -57,9 +59,10 @@ function actualizarPalabrasAdivinar(letra){
 
 function apretarEnter() {
   const arrayActualizado = obtenerArrayActualizado()
-  if (arrayActualizado.length !== 5){
+ /*if (arrayActualizado.length !== 5){
     alert("La palabra tiene que tener 5 letras.");
-  }
+  }*/
+  arrayActualizado.length !== 5 && alert("La palabra tiene que tener 5 letras.");
   const palabraActual = arrayActualizado.join("") 
   //esto lo saque de un video de youtube, no se si es correcto su uso.
   const primerLetraId = recuentoDePalabras * 5 + 1;
@@ -74,12 +77,14 @@ function apretarEnter() {
     }, interval * index);
   } )
 
-  if (palabraActual === palabraEnJuego) {
+  /*if (palabraActual === palabraEnJuego) {
     alert("Felicitaciones has adivinado.!");
-  }
-  if(palabrasAdivinar.length === 6){
+  }*/
+  palabraActual === palabraEnJuego && alert("Felicitaciones has adivinado.!");
+  /*if(palabrasAdivinar.length === 6){
     alert(`Lo siento, te quedaste sin intentos. La palabra es ${palabra}.`);
-  }
+  }*/
+  palabrasAdivinar.length === 6 && alert(`Lo siento, te quedaste sin intentos. La palabra es ${palabra[indicePalabra]}.`);
   palabrasAdivinar.push([]);
 }
 
