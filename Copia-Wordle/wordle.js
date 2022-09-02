@@ -16,6 +16,30 @@ let recuentoDePalabras = 0;
   else {
     alert("Bienvenido "+nombre+" disfrute del Wordle!.");
   } */
+
+  // USO del Sweet alert
+  const ipAPI = '//api.ipify.org?format=json'
+
+const inputValue = fetch(ipAPI)
+  .then(response => response.json())
+  .then(data => data.ip)
+
+const { value: ipAddress } = await Swal.fire({
+  title: 'Ingrese su nombre aqui.',
+  input: 'text',
+  inputLabel: 'Nombre:',
+  inputValue: inputValue,
+  showCancelButton: true,
+  inputValidator: (value) => {
+    if (!value) {
+      return 'Este campo debe ser completado!'
+    }
+  }
+})
+
+if (ipAddress) {
+  Swal.fire(`Su nombre es ${ipAddress}`)
+}
 buscarLocalStorage();
 function buscarLocalStorage(){
   const palabraEnJuegoGuardada = localStorage.getItem("indicePalabra")
@@ -99,6 +123,7 @@ for (let i = 0; i < teclas.length; i++) {
     actualizarPalabrasAdivinar(letra);
   }
 }
+
 });
 
 
