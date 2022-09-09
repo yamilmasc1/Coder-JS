@@ -19,12 +19,12 @@ let recuentoDePalabras = 0;
 
   // USO del Sweet alert
   const ipAPI = '//api.ipify.org?format=json'
-
+/*Probe el feedback que me recomendaste en la entrega anterior pero de igual manera me rompia el codigo. Este no me lo rompe pero me desacomoda la cuadricula
 const inputValue = fetch(ipAPI)
   .then(response => response.json())
   .then(data => data.ip)
 
-const { value: ipAddress } = await Swal.fire({
+const { value: ipAddress } =  Swal.fire({
   title: 'Ingrese su nombre aqui.',
   input: 'text',
   inputLabel: 'Nombre:',
@@ -39,7 +39,7 @@ const { value: ipAddress } = await Swal.fire({
 
 if (ipAddress) {
   Swal.fire(`Su nombre es ${ipAddress}`)
-}
+}*/ //Voy a probar realizando otro sweet alert mas basico, sin tener que consumir una API.
 buscarLocalStorage();
 function buscarLocalStorage(){
   const palabraEnJuegoGuardada = localStorage.getItem("indicePalabra")
@@ -80,7 +80,20 @@ function actualizarPalabrasAdivinar(letra){
   cuadradosDisponiblesEl.textContent = letra;
   }
 }
+function obtenerColorCuadrado(letra, index){
+  const letraCorrecta = palabraEnJuego.includes(letra);
+  if (!letraCorrecta){
+    return "rgb(58, 58, 60)";
+  }
 
+    const letraDondeVa = palabraEnJuego.charAt(index)
+    const posicionCorrecta = (letra === letraDondeVa);
+    if (posicionCorrecta){
+      return "rgb(83, 141, 78)";
+    }
+    return "rgb(181, 159, 59)";
+  
+}
 function apretarEnter() {
   const arrayActualizado = obtenerArrayActualizado()
  /*if (arrayActualizado.length !== 5){
@@ -93,7 +106,7 @@ function apretarEnter() {
   const interval = 200;
   arrayActualizado.forEach((letra, index) =>{
     setTimeout(() => {
-      const colorCuadrado = "rgb(58, 58, 60)" //ya voy a modificar, y hacer una funcion que de el color, verde o rojo.
+      const colorCuadrado = obtenerColorCuadrado(letra, index)
       const letraId = primerLetraId + index;
       const elementoLetra = document.getElementById(letraId)
       elementoLetra.classList.add("animate__flipInX")
