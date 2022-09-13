@@ -1,16 +1,10 @@
+//Variables:
 let palabrasAdivinar = [[]];
 let cuadradosDisponibles = 1;
-let indicePalabra = 2;
-const palabra = fetch("/palabrasEnJuego.json")
-.then((resp) => resp.json())
-.then((data) => (data.palabras)
-
- ); 
- console.log(palabra);
-let palabraEnJuego = fetch("/palabrasEnJuego.json")
-.then((resp) => resp.json())
-.then((data) => (data.palabras[2])
- ); 
+let indicePalabra = 0;
+const URL = "palabrasEnJuego.json";
+let palabra = ""
+let palabraEnJuego = ""
 let recuentoDePalabras = 0;
 const teclas = document.querySelectorAll(".tecladofila button");
 
@@ -27,22 +21,29 @@ const INFO_EVENT = "info";
 const MINIMUM_LETTER_MESSAGE = "Minimo 5 letras";
 const MINIMUM_LETTER_TITLE = "Requerido";
 
-document.addEventListener("DOMContentLoaded", () => crearCuadrados());
-buscarLocalStorage();
+document.addEventListener("DOMContentLoaded", () => {
+  crearCuadrados()
+  buscarLocalStorage();
+  getData(URL)
+});
 
-
-const alertMessage = (title, message, event) => Swal.fire(`${title}`,`${message}`,`${event}`); 
 //Cree una funcion para obtener palabras a travez del fetch como me recomendaste.
+function getData(URL) {
+  fetch(URL)
+    .then((resp) => resp.json())
+    .then(({ palabras }) => palabra = palabras)
+};
 
+const alertMessage = (title, message, event) => Swal.fire(`${title}`, `${message}`, `${event}`);
 
 function buscarLocalStorage() {
   const palabraEnJuegoGuardada = localStorage.getItem("indicePalabra")
   !palabraEnJuegoGuardada && localStorage.setItem("", indicePalabra)
 };
-  
+
 function crearCuadrados() {
   const tablero = document.getElementById("tabla");
-  
+
   for (let index = 0; index < 30; index++) {
     const cuadrado = document.createElement("div");
     cuadrado.classList.add("cuadrado", "animate__animated");
@@ -67,32 +68,30 @@ function actualizarPalabrasAdivinar(letra) {
 };
 
 function obtenerColorCuadrado(letra, index) {
-  
+
   const letraCorrecta = palabraEnJuego.includes(letra);
   const letraDondeVa = palabraEnJuego.charAt(index);
   const posicionCorrecta = (letra === letraDondeVa);
 
   if (!letraCorrecta) {
     return "rgb(58, 58, 60)";
-  }else if (posicionCorrecta) {
+  } else if (posicionCorrecta) {
     return "rgb(83, 141, 78)";
-  }else{
+  } else {
     return "rgb(181, 159, 59)";
   };
 };
 
-function apretarEnter() {  
+function apretarEnter() {
 
   const arrayActualizado = obtenerArrayActualizado();
   const palabraActual = arrayActualizado.join("");
   const primerLetraId = recuentoDePalabras + 1;
   const interval = 200;
-  
-  palabraEnJuego = palabra[indicePalabra];  
- 
+  palabraEnJuego = palabra[indicePalabra];
   arrayActualizado.length !== 5 && alertMessage(MINIMUM_LETTER_TITLE, MINIMUM_LETTER_MESSAGE, INFO_EVENT);
   arrayActualizado.forEach((letra, index) => {
-  
+
     setTimeout(() => {
       const colorCuadrado = obtenerColorCuadrado(letra, index);
       const letraId = primerLetraId + index;
@@ -102,10 +101,10 @@ function apretarEnter() {
     }, interval * index);
   });
 
-  palabraActual === palabraEnJuego && alertMessage(SUCCESS_TITLE, SUCCESS_MESSAGE, SUCCESS_EVENT);    
+  palabraActual === palabraEnJuego && alertMessage(SUCCESS_TITLE, SUCCESS_MESSAGE, SUCCESS_EVENT);
   palabrasAdivinar.length === 7 && alertMessage(ERROR_TITLE, LOST_MESSAGE, FAIL_EVENT);
   palabrasAdivinar.push([]);
-  //Actualizo las las variables recuentoDePalabras y indicePalabra
+  
   recuentoDePalabras += 5;
   indicePalabra += 1;
 };
@@ -120,8 +119,3 @@ for (let i = 0; i < teclas.length; i++) {
     actualizarPalabrasAdivinar(letra);
   }
 };
-
-
-
-
-
