@@ -10,7 +10,7 @@ const teclas = document.querySelectorAll(".tecladofila button");
 
 const SUCCESS_EVENT = "success";
 const SUCCESS_MESSAGE = "Adivinaste la palabra";
-const SUCCESS_TITLE = "Título exitoso";
+const SUCCESS_TITLE = "Felicitaciones";
 
 const FAIL_EVENT = "error";
 const ERROR_MESSAGE = "No adivinaste la palabra";
@@ -108,12 +108,27 @@ function apretarEnter() {
   recuentoDePalabras += 5;
   indicePalabra += 1;
 };
+function apretarDel() {
+  const arrayActualizado = obtenerArrayActualizado();
+  const letraBorrada = arrayActualizado.pop();
+
+  palabrasAdivinar[palabrasAdivinar.length - 1] = arrayActualizado;
+
+  const ultimaLetraEl = document.getElementById(String(cuadradosDisponibles - 1));
+
+  ultimaLetraEl.textContent = "";
+  cuadradosDisponibles = cuadradosDisponibles - 1;
+}
 
 for (let i = 0; i < teclas.length; i++) {
   teclas[i].onclick = ({ target }) => {
     const letra = target.getAttribute("data-key");
     if (letra === "enter") {
       apretarEnter()
+      return;
+    }
+    if (letra === "del"){
+      apretarDel();
       return;
     }
     actualizarPalabrasAdivinar(letra);
